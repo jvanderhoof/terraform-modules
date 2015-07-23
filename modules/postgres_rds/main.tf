@@ -1,9 +1,9 @@
 # Required Variables
 variable "instance_name" {}
 variable "vpc_id" {}
-variable "username" { }
-variable "password" { }
-variable "availability_zone" { }
+variable "username" {}
+variable "password" {}
+variable "availability_zone" {}
 variable "subnet_group_name" {}
 #variable "" {}
 

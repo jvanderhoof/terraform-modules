@@ -2,6 +2,10 @@
 variable "region" {}
 variable "vpc_name" {}
 
+variable "subnet_zones" {
+  default = "a,b"
+}
+
 resource "aws_vpc" "primary" {
   cidr_block = "10.0.0.0/16"
   enable_dns_support = true
@@ -14,20 +18,20 @@ resource "aws_vpc" "primary" {
 resource "aws_subnet" "subnet_a" {
   vpc_id = "${aws_vpc.primary.id}"
   cidr_block = "10.0.3.0/24"
-  availability_zone = "${var.region}a"
+  availability_zone = "${var.region}${element(split(",", var.subnet_zones), 0)}"
 
   tags {
-    Name = "Subnet A"
+    Name = "Subnet ${element(split(",", var.subnet_zones), 0)}"
   }
 }
 
 resource "aws_subnet" "subnet_b" {
   vpc_id = "${aws_vpc.primary.id}"
   cidr_block = "10.0.2.0/24"
-  availability_zone = "${var.region}b"
+  availability_zone = "${var.region}${element(split(",", var.subnet_zones), 1)}"
 
   tags {
-    Name = "Subnet B"
+    Name = "Subnet ${element(split(",", var.subnet_zones), 1)}"
   }
 }
 
